@@ -102,7 +102,9 @@ This document provides an overview of CLI commands that can be sent to MeshCore 
 - `neighbor.remove <pubkey_prefix>`
 
 **Parameters:** 
-- `pubkey_prefix`: The public key of the node to remove from the neighbors list
+- `pubkey_prefix`: The public key of the node to remove from the neighbors list. This can be a short prefix or the full key. All neighbors matching the provided prefix will be removed.
+
+**Note:** You can remove all neighbors by sending a space character as the prefix. The space indicates an empty prefix, which matches all existing neighbors.
 
 ---
 
@@ -483,7 +485,12 @@ This document provides an overview of CLI commands that can be sent to MeshCore 
 - `set af <value>`
 
 **Parameters:**
-- `value`: Airtime factor (0-9)
+- `value`: Airtime factor (0-9). After each transmission, the repeater enforces a silent period of approximately the on-air transmission time multiplied by the value. This results in a long-term duty cycle of roughly 1 divided by (1 plus the value). For example:
+  - `af = 1` → ~50% duty
+  - `af = 2` → ~33% duty
+  - `af = 3` → ~25% duty
+  - `af = 9` → ~10% duty  
+  Yyou are responsible for choosing a value that is appropriate for your jurisdiction and channel plan (for example EU 868 Mhz 10% duty cycle regulation).
 
 **Default:** `1.0`
 
@@ -876,12 +883,6 @@ region save
 - `state`: `on`|`off`
 
 **Default:** `off`
-
----
-
-#### View the bridge source
-**Usage:**
-- `get bridge.source`
 
 ---
 
